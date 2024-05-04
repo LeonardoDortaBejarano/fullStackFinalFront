@@ -15,16 +15,19 @@ export class RoadmapService {
 
   constructor() { }
 
-  creteRoadmap(name: String, description: String) {
+  creteRoadmap(name: String, description: String): Roadmap |null{
     let userId:number | null = this.authService.getUserId();
+    
     if (userId) {
-      this.httpClient.post(`http://localhost:8080/api/v1/user/${userId}/roadmap`,{name : name , description: description }).subscribe(data => {
+      this.httpClient.post(`http://localhost:8080/api/v1/user/${userId}/roadmap`,{name : name , description: description }).subscribe((data: any) => {
         console.log(data);
-    });
-    }
+        return new Roadmap(data.id, data.name, data.description)}
+      )
+    } 
+    return null;
   }
 
-  getUserRoadmaps() : Observable<Roadmap[]> | null {
+  getUserRoadmaps() : Observable<any[]> | null {
     let userId:number | null = this.authService.getUserId();
     if (userId) {
         return this.httpClient.get<Roadmap[]>(`http://localhost:8080/api/v1/user/${userId}/roadmap`);

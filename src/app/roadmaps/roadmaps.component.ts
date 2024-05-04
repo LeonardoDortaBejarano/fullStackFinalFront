@@ -3,15 +3,17 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { RoadmapService } from '../services/roadmap/roadmap.service';
 import { Roadmap } from '../models/Roadmap';
 import { BehaviorSubject, Observable, map } from 'rxjs';
+import {MatGridListModule} from '@angular/material/grid-list';
+
 
 @Component({
   selector: 'app-roadmaps',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,MatGridListModule],
   templateUrl: './roadmaps.component.html',
   styleUrl: './roadmaps.component.css'
 })
-export class RoadmapsComponent implements OnInit{
+export class RoadmapsComponent {
   private roadmapService: RoadmapService = inject(RoadmapService)
   private rodmaps: Roadmap[] = [];
   
@@ -21,14 +23,13 @@ export class RoadmapsComponent implements OnInit{
   RoadmapsComponent(){}
 
   ngOnInit() {
-
-    
-    this.roadmapService.getUserRoadmaps()?.pipe(
-      map((data: any[]) => {
+    console.log('0');
+    this.roadmapService.getUserRoadmaps()?.subscribe(data => {
+      if (data && data.length > 0) {
         this.rodmaps = data.map(item => new Roadmap(item.id, item.name, item.description));
-        
-        console.log("data");
-      } ))
+        console.log('Roadmaps:', this.rodmaps);
+      }
+    });
     /* rodmaps =  */
   }
 
@@ -37,9 +38,21 @@ export class RoadmapsComponent implements OnInit{
 
 
   createRoadmap(f: NgForm) {
-    console.log(this.rodmaps[0].getName());
+    /* console.log(this.rodmaps[0].getName()); */
     alert(`${f.value.title} ${f.value.description} `)
-    this.roadmapService.creteRoadmap(f.value.title,f.value.description)
+    let newRoadmap:Roadmap | null = this.roadmapService.creteRoadmap(f.value.title,f.value.description);
+    if (newRoadmap != null) {
+      this.rodmaps.push(newRoadmap);
+    }
+    
+  }
+
+  getRoadmapsLenght(): number {
+    return this.rodmaps.length;
+  }
+
+  getRoadmaps(): Roadmap[] {
+    return this.rodmaps;
   }
 
 }

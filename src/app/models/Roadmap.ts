@@ -10,6 +10,10 @@ export class Roadmap {
     getName(): String{
         return this.name;
     }
+
+    getId(): Number {
+        return this.id;
+    }
     
     
 }
