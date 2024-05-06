@@ -3,50 +3,18 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title">Timeline</h6>
                     <div id="content">
                         <ul class="timeline">
-                            <li class="event" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-date="8:30 - 9:30pm">
-                                <h3>Closing Ceremony</h3>
-                                <p>See how is the victor and who are the losers. The big stage is where the winners bask in their own glory.</p>
-                            </li>
-                            <li class="event" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-date="8:30 - 9:30pm">
-                                <h3>Closing Ceremony</h3>
-                                <p>See how is the victor and who are the losers. The big stage is where the winners bask in their own glory.</p>
-                            </li>
-                            <li class="event" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-date="8:30 - 9:30pm">
-                                <h3>Closing Ceremony</h3>
-                                <p>See how is the victor and who are the losers. The big stage is where the winners bask in their own glory.</p>
-                            </li>
-                            <li class="event" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-date="8:30 - 9:30pm">
-                                <h3>Closing Ceremony</h3>
-                                <p>See how is the victor and who are the losers. The big stage is where the winners bask in their own glory.</p>
-                            </li>
-                            <li class="event" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-date="8:30 - 9:30pm">
-                                <h3>Closing Ceremony</h3>
-                                <p>See how is the victor and who are the losers. The big stage is where the winners bask in their own glory.</p>
-                            </li>
-                            <li class="event" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-date="8:30 - 9:30pm">
-                                <h3>Closing Ceremony</h3>
-                                <p>See how is the victor and who are the losers. The big stage is where the winners bask in their own glory.</p>
-                            </li>
-                            <li class="event" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-date="8:30 - 9:30pm">
-                                <h3>Closing Ceremony</h3>
-                                <p>See how is the victor and who are the losers. The big stage is where the winners bask in their own glory.</p>
-                            </li>
-                            <li class="event" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-date="8:30 - 9:30pm">
-                                <h3>Closing Ceremony</h3>
-                                <p>See how is the victor and who are the losers. The big stage is where the winners bask in their own glory.</p>
-                            </li>
-                            <li class="event" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-date="8:30 - 9:30pm">
-                                <h3>Closing Ceremony</h3>
-                                <p>See how is the victor and who are the losers. The big stage is where the winners bask in their own glory.</p>
-                            </li>
                             
-                            <li class="event" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-date="8:30 - 9:30pm">
-                                <h3>Closing Ceremony</h3>
-                                <p>See how is the victor and who are the losers. The big stage is where the winners bask in their own glory.</p>
-                            </li>
+                            @if (this.roadmap != null) {
+                                @for (milestone of getRoadmapMilestone(); track $index) {
+                                
+                                    <li class="event clickable" (click)="setSelectedMilestone(milestone)"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                                        <h3>{{milestone.getName()}}</h3>
+                                        <p>{{milestone?.getContent()}}</p> 
+                                    </li>
+                                    }
+                            }
                         </ul>
                     </div>
                 </div>
@@ -84,12 +52,12 @@
                 </form>
             </div>
 
-            <app-task-creator (taskAddedToList)="updateTaskList($event)"></app-task-creator>
+            <app-task-creator #taskCreator  (taskAddedToList)="updateTaskList($event)"></app-task-creator>
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" (click)="saveChanges(f)" data-bs-dismiss="modal" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
@@ -98,10 +66,28 @@
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header">
-    <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+    <h5 id="offcanvasRightLabel">{{selectedMilestone?.getName()}}</h5>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    ...
+    <p>{{selectedMilestone?.getContent()}}</p>
+
+                      <ul class="list-group mb-0">
+
+                        @for (task of selectedMilestone?.getTasks(); track $index) {
+                            <li class="list-group-item d-flex align-items-center border-0 mb-2 rounded"
+                            style="background-color: #f4f6f7;">
+                            @if (task.isCompleted()) {
+                                <input class="form-check-input me-2" type="checkbox" value="" (change)="changeTaskState(false,task)" aria-label="..." checked />
+                                <s>{{task.getName()}}</s>
+                            } @else {
+                                <input class="form-check-input me-2" type="checkbox" (change)="changeTaskState(true,task)" value="" aria-label="..." />
+                                {{task.getName()}}
+                            }
+                            </li>
+                        }
+
+                      </ul>
+                   
   </div>
 </div>

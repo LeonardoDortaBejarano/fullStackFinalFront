@@ -133,3 +133,7 @@ body{margin-top:20px;}
     line-height: 50px;
     font-size: 2rem;;
   }
+
+  .clickable:hover {
+    cursor: pointer;
+  }

@@ -15,7 +15,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 })
 export class RoadmapsComponent {
   private roadmapService: RoadmapService = inject(RoadmapService)
-  private rodmaps: Roadmap[] = [];
+  rodmaps: Roadmap[] = [];
   
   
 
@@ -26,7 +26,7 @@ export class RoadmapsComponent {
     console.log('0');
     this.roadmapService.getUserRoadmaps()?.subscribe(data => {
       if (data && data.length > 0) {
-        this.rodmaps = data.map(item => new Roadmap(item.id, item.name, item.description));
+        this.rodmaps = data.map(item => new Roadmap(item.id, item.name, item.description, item.milestone));
         console.log('Roadmaps:', this.rodmaps);
       }
     });
@@ -37,15 +37,21 @@ export class RoadmapsComponent {
 
 
 
-  createRoadmap(f: NgForm) {
-    /* console.log(this.rodmaps[0].getName()); */
-    alert(`${f.value.title} ${f.value.description} `)
-    let newRoadmap:Roadmap | null = this.roadmapService.creteRoadmap(f.value.title,f.value.description);
+  async createRoadmap(f: NgForm) {
+
+    let newRoadmap:Observable<Roadmap> | null = await this.roadmapService.creteRoadmap(f.value.title,f.value.description);
     if (newRoadmap != null) {
-      this.rodmaps.push(newRoadmap);
+
+
+      newRoadmap.subscribe((data: any) => {
+        console.log(data);
+        this.rodmaps.push(new Roadmap(data.id, data.name, data.description,data.milestone))
+       })
+    } 
+      console.log(this.rodmaps);
     }
     
-  }
+  
 
   getRoadmapsLenght(): number {
     return this.rodmaps.length;

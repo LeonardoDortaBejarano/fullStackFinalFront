@@ -1,0 +1,10 @@
+  <div class="input-group">
+    <input (keyup)="search()" [(ngModel)]="query" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+    <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
+  </div>
+
+  @for (roadmap of roadmaps; track $index) {
+    <div>
+        <a [href]="'/roadmap/' + roadmap.getId()">{{roadmap.getName()}}</a>
+    </div>
+  }

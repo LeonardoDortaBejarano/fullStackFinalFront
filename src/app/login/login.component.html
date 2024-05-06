@@ -1,13 +1,30 @@
 <div class="container">
-    <form #f="ngForm" (ngSubmit)="login(f)" novalidate>
-        <div class="mb-3">
-          <label for="exampleInputusername1" class="form-label">Username</label>
-          <input ngModel name="username"   class="form-control" id="exampleInputusername1" aria-describedby="usernameHelp">
-        </div>
-        <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input ngModel name="password" type="password" class="form-control" id="exampleInputPassword1">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    
+
+
+
+<section class="vh-100">
+  <div class="container py-5 h-100">
+    <div class="row d-flex align-items-center justify-content-center h-100">
+      <div class="col-md-8 col-lg-7 col-xl-6">
+        <img src="https://img.freepik.com/free-vector/hand-drawn-roadmap-infographic-with-character_52683-67396.jpg?w=740&t=st=1715010510~exp=1715011110~hmac=ea0dd859cb28e8d416b03858e97cdd53e006f3fafed6c964b17740df1e20148c"
+          class="img-fluid" alt="Phone image">
+      </div>
+      <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+        <form #f="ngForm" (ngSubmit)="login(f)" novalidate>
+          <div class="mb-3">
+            <label for="exampleInputusername1" class="form-label">Username</label>
+            <input ngModel name="username"   class="form-control" id="exampleInputusername1" aria-describedby="usernameHelp">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input ngModel name="password" type="password" class="form-control" id="exampleInputPassword1">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+      
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 </div>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -13,14 +13,20 @@ export class TaskCreatorComponent {
   taskList: String [] = [];
   taskToAdd: String = "";
 
+  constructor(){}
+ 
   @Output() taskAddedToList= new EventEmitter<String[]>();
+  
 
   addTaskToTaskList(): void{
-    alert(this.taskToAdd);
     this.taskList.push(this.taskToAdd);
     this.taskAddedToList.emit(this.taskList);
     this.taskToAdd = "";
     
+  }
+
+  cleanTaskList() { //call it from the parent
+    this.taskList = [];
   }
 
   

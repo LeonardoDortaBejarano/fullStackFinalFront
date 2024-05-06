@@ -2,7 +2,8 @@
     <button  type="button" class="btn btn-primary add-button" data-bs-toggle="modal" data-bs-target="#roadmapModal"><i class="fas fa-plus">+</i></button>
     @if (getRoadmapsLenght() != 0) {
       <mat-grid-list cols="10" rowHeight="2:1">
-        @for (roamap of getRoadmaps();track roamap) {
+        @for (roamap of rodmaps;track roamap) {
+
           <mat-grid-tile>
           <a [href]="'/roadmap/' + roamap.getId()">
             <div class="grid-item">
@@ -45,7 +46,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" (click)="createRoadmap(f)" class="btn btn-primary">Save changes</button>
+          <button type="button" data-bs-dismiss="modal" data-bs-dismiss="modal" (click)="createRoadmap(f)" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
