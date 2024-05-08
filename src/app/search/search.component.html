@@ -1,10 +1,46 @@
+<!--   <div class="container">
   <div class="input-group">
     <input (keyup)="search()" [(ngModel)]="query" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
     <button type="button" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
   </div>
-
+  
+  <mat-list>
   @for (roadmap of roadmaps; track $index) {
-    <div>
-        <a [href]="'/roadmap/' + roadmap.getId()">{{roadmap.getName()}}</a>
-    </div>
+    <a [href]="'/roadmap/' + roadmap.getId()">
+      <mat-list-item>
+        {{roadmap.getName()}}
+      </mat-list-item>
+    </a>
+      <mat-divider></mat-divider>
+
   }
+  </mat-list>
+</div>
+
+ -->
+
+ 
+
+ <div class="main-search-input-wrap">
+       
+     
+  <div class="main-search-input fl-wrap">
+      <div class="main-search-input-item">
+          <input  (keyup)="search()" [(ngModel)]="query" type="text"  value="" placeholder="Search Roadmaps..">
+      </div>
+      
+      <button class="main-search-button">Search</button>
+  </div>
+  <mat-list>
+    @for (roadmap of roadmaps; track $index) {
+      <a [href]="'/roadmap/' + roadmap.id">
+        <mat-list-item>
+          {{roadmap.name}}
+        </mat-list-item>
+      </a>
+        <mat-divider></mat-divider>
+  
+    }
+    </mat-list>
+
+  </div>

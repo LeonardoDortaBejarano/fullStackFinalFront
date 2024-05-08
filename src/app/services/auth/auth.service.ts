@@ -27,7 +27,7 @@ export class AuthService {
      public  getUserId():number | null {
       const decodeToken:TokenIdDecode = jwtDecode(this.getToken()!);
       if (decodeToken["id"]) {
-        console.log(decodeToken["id"])
+         
         return decodeToken["id"]
       }
       return null
@@ -66,7 +66,7 @@ export class AuthService {
 
 
      public register(username: string, password: string, email: string):void {
-      console.log(`username ${username}   password ${password}  email ${email}`)
+       
        this.httpClient.post<AuthResponse>("http://localhost:8080/api/v1/auth/register",{username : username , email: email , password: password }).subscribe(data => {
          this.token = data.token;
          sessionStorage.setItem("token",this.token);
@@ -75,10 +75,10 @@ export class AuthService {
     }
 
     public login(username: string, password: string):void {
-      console.log(`username ${username}   password ${password}`)
+       
 
        this.httpClient.post<AuthResponse>("http://localhost:8080/api/v1/auth/login",{username : username ,password: password }).subscribe((data) => {
-        console.log(data);
+         
          this.token = data.token;
          sessionStorage.setItem("token",this.token);
          this.router.navigate(['/roadmaps']);

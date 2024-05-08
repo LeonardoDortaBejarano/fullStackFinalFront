@@ -4,54 +4,56 @@ import { RoadmapService } from '../services/roadmap/roadmap.service';
 import { Roadmap } from '../models/Roadmap';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { RoadmapCardComponent } from "../roadmap-card/roadmap-card.component";
+import { Task } from '../models/Task';
+import { Milestone } from '../models/Milestone';
+
 
 
 @Component({
-  selector: 'app-roadmaps',
-  standalone: true,
-  imports: [FormsModule,MatGridListModule],
-  templateUrl: './roadmaps.component.html',
-  styleUrl: './roadmaps.component.css'
+    selector: 'app-roadmaps',
+    standalone: true,
+    templateUrl: './roadmaps.component.html',
+    styleUrl: './roadmaps.component.css',
+    imports: [FormsModule, MatGridListModule, RoadmapCardComponent]
 })
 export class RoadmapsComponent {
   private roadmapService: RoadmapService = inject(RoadmapService)
   rodmaps: Roadmap[] = [];
   
-  
-
 
   RoadmapsComponent(){}
 
   ngOnInit() {
-    console.log('0');
-    this.roadmapService.getUserRoadmaps()?.subscribe(data => {
+    this.roadmapService.getUserRoadmaps()?.subscribe((data: Roadmap[]) => {
+    
+      let milestoneTasks: Task[];
+      let milestoneToInsert: Milestone[];
+      let roadmap:Roadmap;
+
       if (data && data.length > 0) {
-        this.rodmaps = data.map(item => new Roadmap(item.id, item.name, item.description, item.milestone));
-        console.log('Roadmaps:', this.rodmaps);
+
+         this.rodmaps = data;
+         console.log(`this.rodmaps`);
+         console.log(this.rodmaps);
       }
-    });
-    /* rodmaps =  */
+    }); 
   }
 
 
 
 
 
-  async createRoadmap(f: NgForm) {
+   async createRoadmap(f: NgForm) {
 
     let newRoadmap:Observable<Roadmap> | null = await this.roadmapService.creteRoadmap(f.value.title,f.value.description);
     if (newRoadmap != null) {
-
-
-      newRoadmap.subscribe((data: any) => {
-        console.log(data);
-        this.rodmaps.push(new Roadmap(data.id, data.name, data.description,data.milestone))
+      newRoadmap.subscribe((data: Roadmap) => {
+        this.rodmaps.push(data);
        })
-    } 
-      console.log(this.rodmaps);
     }
-    
-  
+    }
+     
 
   getRoadmapsLenght(): number {
     return this.rodmaps.length;
@@ -59,6 +61,16 @@ export class RoadmapsComponent {
 
   getRoadmaps(): Roadmap[] {
     return this.rodmaps;
+  }
+
+  deleteRoadmapFromList(roadmapId: Number) {
+    //TODO: implmentar la eliminacion del front
+
+    this.rodmaps.forEach(roadmap => {
+      if (roadmap.id == roadmapId) {
+
+      }
+    });
   }
 
 }

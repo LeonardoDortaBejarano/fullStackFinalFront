@@ -10,8 +10,8 @@
                                 @for (milestone of getRoadmapMilestone(); track $index) {
                                 
                                     <li class="event clickable" (click)="setSelectedMilestone(milestone)"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                                        <h3>{{milestone.getName()}}</h3>
-                                        <p>{{milestone?.getContent()}}</p> 
+                                        <h3>{{milestone.name}}</h3>
+                                        <p>{{milestone.content}}</p> 
                                     </li>
                                     }
                             }
@@ -66,23 +66,23 @@
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header">
-    <h5 id="offcanvasRightLabel">{{selectedMilestone?.getName()}}</h5>
+    <h5 id="offcanvasRightLabel">{{selectedMilestone?.name}}</h5>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    <p>{{selectedMilestone?.getContent()}}</p>
+    <p>{{selectedMilestone?.content}}</p>
 
                       <ul class="list-group mb-0">
 
-                        @for (task of selectedMilestone?.getTasks(); track $index) {
+                        @for (task of selectedMilestone?.tasks; track $index) {
                             <li class="list-group-item d-flex align-items-center border-0 mb-2 rounded"
                             style="background-color: #f4f6f7;">
-                            @if (task.isCompleted()) {
+                            @if (task.complete) {
                                 <input class="form-check-input me-2" type="checkbox" value="" (change)="changeTaskState(false,task)" aria-label="..." checked />
-                                <s>{{task.getName()}}</s>
+                                <s>{{task.name}}</s>
                             } @else {
                                 <input class="form-check-input me-2" type="checkbox" (change)="changeTaskState(true,task)" value="" aria-label="..." />
-                                {{task.getName()}}
+                                {{task.name}}
                             }
                             </li>
                         }

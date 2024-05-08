@@ -1,12 +1,12 @@
 .add-button-container {
-    /* position: fixed;
+    position: fixed;
     bottom: 20px;
-    right: 20px; */
+    right: 20px;
   }
   
   .add-button {
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     font-size: 24px;
     padding: 0;

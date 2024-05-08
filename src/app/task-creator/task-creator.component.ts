@@ -15,12 +15,12 @@ export class TaskCreatorComponent {
 
   constructor(){}
  
-  @Output() taskAddedToList= new EventEmitter<String[]>();
+  @Output() taskAddedToList= new EventEmitter<String>();
   
 
   addTaskToTaskList(): void{
     this.taskList.push(this.taskToAdd);
-    this.taskAddedToList.emit(this.taskList);
+    this.taskAddedToList.emit(this.taskToAdd);
     this.taskToAdd = "";
     
   }

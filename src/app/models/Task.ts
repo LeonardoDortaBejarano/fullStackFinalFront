@@ -1,4 +1,12 @@
-export class Task {
+export interface Task {
+     link : String;
+     orderValue: String;
+     name : String,
+     id?: number,
+     complete : boolean;
+}
+
+/* export class Task {
     getId(): number|undefined {
       return this.id;
     }
@@ -20,7 +28,7 @@ export class Task {
     }
 
     setCompleted(option:boolean): void {
-        console.log(this.id);
+         
         this.complete = option;
     }
 
@@ -29,4 +37,4 @@ export class Task {
     getName(): String {
         return this.name;
     }
-}
+} */

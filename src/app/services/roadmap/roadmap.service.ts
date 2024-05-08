@@ -13,6 +13,7 @@ import { __param } from 'tslib';
 export class RoadmapService {
 
 
+
   private httpClient: HttpClient = inject(HttpClient);
   private authService: AuthService = inject(AuthService);
   
@@ -31,7 +32,7 @@ export class RoadmapService {
 
 
 
-  getUserRoadmaps() : Observable<any[]> | null {
+  getUserRoadmaps() : Observable<Roadmap[]> | null {
     let userId:number | null = this.authService.getUserId();
     if (userId) {
         return this.httpClient.get<Roadmap[]>(`http://localhost:8080/api/v1/user/${userId}/roadmap`);
@@ -46,7 +47,7 @@ export class RoadmapService {
   }
 
   createMilestone(name: String, description: String, tasks: Task[], roadmapId: number):Observable<Milestone> | null {
-    let milestone: Milestone = new Milestone(name,description,tasks);
+    let milestone: Milestone = {name: name,content:description, tasks: tasks}
     let userId:number | null = this.authService.getUserId();
     if (userId) {
       return this.httpClient.post<Milestone>(`http://localhost:8080/api/v1/roadmap/${roadmapId}/milestone`,milestone)
@@ -55,10 +56,10 @@ export class RoadmapService {
   }
 
   updateTask(task:Task) {
-    
-    this.httpClient.put<Task>(`http://localhost:8080/api/v1/task/${task.getId()}`,task).subscribe((data) => {
+
+    this.httpClient.put<Task>(`http://localhost:8080/api/v1/task/${task.id}`,task).subscribe((data) => {
       
-    console.log(data)
+     
     })
   }
 
@@ -66,6 +67,10 @@ export class RoadmapService {
 /*     const params = new HttpParams({fromString: `query=${query}`});
     return this.httpClient.request<Roadmap[]>('GET', `http://localhost:8080/api/v1/roadmap/search}`, {responseType:'json', params}); */
     return this.httpClient.get<Roadmap[]>(`http://localhost:8080/api/v1/roadmap/search?query=${query}`);
+  }
+
+  deleteRoadmap(roadmapId: Number):Observable<any>{
+    return this.httpClient.delete(`http://localhost:8080/api/v1/roadmap/${roadmapId}`);
   }
 
 }

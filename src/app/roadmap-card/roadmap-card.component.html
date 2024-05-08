@@ -1,0 +1,50 @@
+<div class="card-container">
+    <button class="option-button" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button (click)="deleteRoadmap()" mat-menu-item>
+          <mat-icon>delete</mat-icon>
+          <span>Eliminar</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>edit</mat-icon>
+          <span>Editar</span>
+        </button>
+      </mat-menu>
+
+    <a class="card-link" [href]="'/roadmap/' +   this.roadmap?.id">
+        <div class="card" [ngClass]="this.colorsAvailable[selectedColorId]">
+            <div class="card-statistic-3 p-4">
+                <div class="mb-4">
+                    <h2 class="card-title mb-0">{{this.roadmap?.name}}</h2>
+                </div>
+                <div class="row align-items-center mb-2 d-flex">
+                    <div class="col-8">
+                        <h3 class="d-flex align-items-center mb-0">
+                            {{this.roadmap?.donePercentage}}
+                        </h3>
+                    </div>
+                    <div class="col-4 text-right">
+                    <!--  <span>{{this.roadmap.getDoneTaskQuantity()}}/{{this.roadmap.getTaskQuantity()}}</span> -->
+                    </div>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" [ngStyle]="{'width.%': this.roadmap?.donePercentage}" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+        
+    </a>
+</div>
+
+@if (this.showOption) {
+    <div>
+        <button mat-fab color="warn" aria-label="Example icon button with a delete icon">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-fab color="3b67ad" aria-label="Example icon button with a delete icon">
+            <mat-icon>mode_edit_outline</mat-icon>
+          </button>
+    </div>
+}

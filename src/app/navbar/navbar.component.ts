@@ -17,7 +17,7 @@ export class NavbarComponent {
   }
 
   logout():void {
-    console.log("sadasd")
+     
     return this.authService.logout() 
   }
 }

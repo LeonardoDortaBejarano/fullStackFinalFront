@@ -1,4 +1,16 @@
-import {Task} from "./Task";
+import { Task } from "./Task";
+
+export interface Milestone {
+  id?: Number;
+  orderValue?: string
+  name : String,
+  content : String,
+  tasks : Task[];
+}
+
+/* import {Task} from "./Task";
+
+
 
 export class Milestone {
   private id?: Number;
@@ -23,4 +35,4 @@ export class Milestone {
       }
 
 
-}
+} */
