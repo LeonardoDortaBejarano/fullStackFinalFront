@@ -12,6 +12,10 @@ import { __param } from 'tslib';
 })
 export class RoadmapService {
 
+ /*  editRoadmapColorNameAndDescription(nameOfTheRoadmap: String, descriptionOfTheRoadmap: String, colorOfTheRoadmap: String): Observable<Roadmap> | null {
+    
+  }
+ */
 
 
   private httpClient: HttpClient = inject(HttpClient);
@@ -21,13 +25,21 @@ export class RoadmapService {
 
   constructor() { }
 
-  creteRoadmap(name: String, description: String): Observable<Roadmap> |null{
+  creteRoadmap(name: String, description: String, color: String): Observable<Roadmap> |null{
     let userId:number | null = this.authService.getUserId();
     
     if (userId) {
-     return this.httpClient.post<Roadmap>(`http://localhost:8080/api/v1/user/${userId}/roadmap`,{name : name , description: description })
+     return this.httpClient.post<Roadmap>(`http://localhost:8080/api/v1/user/${userId}/roadmap`,{name : name , description: description, color:color })
     }
     return null;
+  }
+
+  editRoadmap(nameOfTheRoadmap: String, descriptionOfTheRoadmap: String, colorOfTheRoadmap: String, roadmapId: Number|undefined): Observable<Roadmap> | null {
+    if (roadmapId != undefined) {
+      return this.httpClient.patch<Roadmap>(`http://localhost:8080/api/v1/roadmap/${roadmapId}`,{name : nameOfTheRoadmap , description: descriptionOfTheRoadmap, color:colorOfTheRoadmap })
+    }
+    return null;
+    
   }
 
 

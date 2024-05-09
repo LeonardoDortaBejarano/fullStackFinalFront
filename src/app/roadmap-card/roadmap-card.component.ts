@@ -8,6 +8,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import { RoadmapService } from '../services/roadmap/roadmap.service';
 
+
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 
@@ -20,6 +21,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
   styleUrl: './roadmap-card.component.css'
 })
 export class RoadmapCardComponent {
+
   public roadmapService: RoadmapService =  inject(RoadmapService)
 
  
@@ -29,9 +31,11 @@ export class RoadmapCardComponent {
   @Input() selectedColorId: number = 1;
 
   @Output() deletedElement = new EventEmitter<Number>();
+  @Output() editingRaoadmap= new EventEmitter<Roadmap>();
 
-  colorsAvailable: String [] = ["l-bg-cherry","l-bg-blue-dark","l-bg-green-dark","l-bg-orange-dark","l-bg-cyan","l-bg-green","l-bg-orange","l-bg-cyan"]
-  showOption: boolean = false;
+/*   colorsAvailable: String [] = ["l-bg-cherry","l-bg-blue-dark","l-bg-green-dark","l-bg-orange-dark","l-bg-cyan","l-bg-green","l-bg-orange","l-bg-cyan"]
+  showOption: boolean = false; */
+  
   
   constructor(){}
 
@@ -45,6 +49,10 @@ export class RoadmapCardComponent {
 
     /* this.clickDelete.emit(true); */
   }
+
+  editRoadmap() {
+    this.editingRaoadmap.emit(this.roadmap)
+    }
 
 
 

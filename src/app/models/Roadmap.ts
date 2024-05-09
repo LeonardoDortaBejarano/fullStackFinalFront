@@ -10,6 +10,7 @@ export interface Roadmap {
      created_date: Date,
      name: String,
      description: String,
+     color: String,
      milestones: Milestone[]
 }
 

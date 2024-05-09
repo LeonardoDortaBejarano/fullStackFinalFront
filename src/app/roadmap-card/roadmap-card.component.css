@@ -24,7 +24,7 @@
 }
 
 .l-bg-blue-dark {
-    background: linear-gradient(to right, #373b44, #4286f4) !important;
+    background: linear-gradient(to right, #373b44, hwb(218 5% 63%)) !important;
     color: #fff;
 }
 

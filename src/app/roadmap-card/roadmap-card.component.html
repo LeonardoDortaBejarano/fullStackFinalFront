@@ -7,14 +7,14 @@
           <mat-icon>delete</mat-icon>
           <span>Eliminar</span>
         </button>
-        <button mat-menu-item>
+        <button (click)="editRoadmap()" data-bs-toggle="modal" data-bs-target="#roadmapModal" mat-menu-item>
           <mat-icon>edit</mat-icon>
           <span>Editar</span>
         </button>
       </mat-menu>
 
     <a class="card-link" [href]="'/roadmap/' +   this.roadmap?.id">
-        <div class="card" [ngClass]="this.colorsAvailable[selectedColorId]">
+        <div class="card" [style.background-color]="this.roadmap?.color">
             <div class="card-statistic-3 p-4">
                 <div class="mb-4">
                     <h2 class="card-title mb-0">{{this.roadmap?.name}}</h2>

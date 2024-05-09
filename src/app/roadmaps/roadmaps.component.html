@@ -1,18 +1,22 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
 
 <div class="add-button-container">
-    <button  type="button" class="btn btn-primary add-button" data-bs-toggle="modal" data-bs-target="#roadmapModal"><i class="fas fa-plus"></i></button>
+    <button (click)="setRoadmapValuesForSaving()" type="button" class="btn btn-primary add-button" data-bs-toggle="modal" data-bs-target="#roadmapModal"><i class="fas fa-plus"></i></button>
 </div>
   <div class="container-fluid">
   @if (getRoadmapsLenght() != 0) {
+    
       <div class="row">
       @for (roamap of rodmaps;track roamap; let index = $index) {
           <div class="col-md-2">
-            <app-roadmap-card (deletedElement)='deleteRoadmapFromList($event)' [selectedColorId]="index" [roadmap]=roamap></app-roadmap-card>
+            <app-roadmap-card  (editingRaoadmap)="setRoadmapValuesForEditing($event)"  (deletedElement)='deleteRoadmapFromList($event)' [selectedColorId]="index" [roadmap]=roamap></app-roadmap-card>
             
           </div>
         }
       </div>
+
+  
+
   }
 </div>
 
@@ -25,17 +29,24 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-
             <div class="container">
+              <label>Color</label>
+                <ngx-colors
+                class="color-picker"
+                ngx-colors-trigger
+                [(ngModel)]="this.colorOfTheRoadmap"
+                [style.color]="this.colorOfTheRoadmap"
+                >
+                </ngx-colors>
                 <form #f="ngForm"  novalidate>
                     <div class="mb-3">
                       <label for="titleInput" class="form-label">Title</label>
-                      <input ngModel name="title"  class="form-control" id="titleInput" aria-describedby="usernameHelp">
+                      <input [(ngModel)]="this.nameOfTheRoadmap" name="title"  class="form-control" id="titleInput" aria-describedby="usernameHelp">
                     </div>
 
                 <div class="form-group">
                     <label for="formControlTextarea">Description</label>
-                    <textarea ngModel name="description" class="form-control" id="formControlTextarea" rows="3"></textarea>
+                    <textarea [(ngModel)]="this.descriptionOfTheRoadmap" name="description" class="form-control" id="formControlTextarea" rows="3"></textarea>
                   </div>
                 </form>
             </div>
@@ -43,8 +54,49 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" data-bs-dismiss="modal" data-bs-dismiss="modal" (click)="createRoadmap(f)" class="btn btn-primary">Save changes</button>
+          <button type="button" data-bs-dismiss="modal" data-bs-dismiss="modal" (click)="executeSaveOrEditAction()" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
   </div>
+
+
+
+
+  <div class="example-container" cdkDropListGroup>
+    @for (roamap of rodmaps;track roamap; let index = $index) {
+      <div cdkDropList 
+            >
+        
+        <app-roadmap-card  cdkDrag class="example-box"(editingRaoadmap)="setRoadmapValuesForEditing($event)"  (deletedElement)='deleteRoadmapFromList($event)' [selectedColorId]="index" [roadmap]=roamap></app-roadmap-card>
+      </div>
+    }
+  </div> 
+  
+<!--     <div
+    cdkDropList
+    
+    [cdkDropListData]="rodmaps"
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+    @for (roamap of rodmaps;track roamap; let index = $index) {
+        <div class="example-box" cdkDrag>
+          <app-roadmap-card  (editingRaoadmap)="setRoadmapValuesForEditing($event)"  (deletedElement)='deleteRoadmapFromList($event)' [selectedColorId]="index" [roadmap]=roamap></app-roadmap-card>
+          <p class="example-box" cdkDrag  >{{roamap.name}}</p>
+          
+        </div>
+      }
+    </div>
+     -->
+
+
+
+<!-- 
+  <div class="row">
+    @for (roamap of rodmaps;track roamap; let index = $index) {
+        <div class="col-md-2">
+          <app-roadmap-card  (editingRaoadmap)="setRoadmapValuesForEditing($event)"  (deletedElement)='deleteRoadmapFromList($event)' [selectedColorId]="index" [roadmap]=roamap></app-roadmap-card>
+          
+        </div>
+      }
+    </div> -->

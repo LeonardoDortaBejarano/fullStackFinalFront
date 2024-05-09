@@ -7,19 +7,36 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { RoadmapCardComponent } from "../roadmap-card/roadmap-card.component";
 import { Task } from '../models/Task';
 import { Milestone } from '../models/Milestone';
-
-
+import { NgxColorsModule } from 'ngx-colors';
+import { ActionToPerfomce } from '../enum/roadmap'
+import {
+  CdkDragDrop,
+  CdkDrag,
+  CdkDropList,
+  CdkDropListGroup,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop'
+/* import {CdkDragDrop, CdkDrag, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop'; */
 
 @Component({
     selector: 'app-roadmaps',
     standalone: true,
     templateUrl: './roadmaps.component.html',
     styleUrl: './roadmaps.component.css',
-    imports: [FormsModule, MatGridListModule, RoadmapCardComponent]
+    imports: [CdkDropListGroup, CdkDropList, CdkDrag,FormsModule, MatGridListModule, RoadmapCardComponent,NgxColorsModule]
 })
 export class RoadmapsComponent {
+
   private roadmapService: RoadmapService = inject(RoadmapService)
   rodmaps: Roadmap[] = [];
+  selectedRoadmap?:Roadmap;
+  actionToMake: ActionToPerfomce = ActionToPerfomce.save;
+  nameOfTheRoadmap: String = "";
+  descriptionOfTheRoadmap: String = "";
+  colorOfTheRoadmap: String = "#0e2c5e";
+  
+
   
 
   RoadmapsComponent(){}
@@ -41,19 +58,58 @@ export class RoadmapsComponent {
   }
 
 
+    executeSaveOrEditAction() {
+      this.actionToMake == ActionToPerfomce.save? this.createRoadmap() : this.editRoadmap();
+    }
+
+    setRoadmapValuesForSaving() {
+        this.actionToMake = ActionToPerfomce.save;
+        this.nameOfTheRoadmap = ''
+        this.descriptionOfTheRoadmap = ''
+        this.colorOfTheRoadmap = "#0e2c5e";
+        this.selectedRoadmap = undefined;
+      }
 
 
-
-   async createRoadmap(f: NgForm) {
-
-    let newRoadmap:Observable<Roadmap> | null = await this.roadmapService.creteRoadmap(f.value.title,f.value.description);
+    createRoadmap() {
+    let newRoadmap:Observable<Roadmap> | null = this.roadmapService.creteRoadmap(this.nameOfTheRoadmap, this.descriptionOfTheRoadmap, this.colorOfTheRoadmap);
     if (newRoadmap != null) {
       newRoadmap.subscribe((data: Roadmap) => {
         this.rodmaps.push(data);
        })
     }
     }
-     
+
+    editRoadmap() {
+      let newRoadmap:Observable<Roadmap> | null = this.roadmapService.editRoadmap(this.nameOfTheRoadmap, this.descriptionOfTheRoadmap, this.colorOfTheRoadmap,this.selectedRoadmap?.id);
+      if (newRoadmap != null) {
+        newRoadmap.subscribe((data: Roadmap) => {
+          const index = this.rodmaps.findIndex((r) => r.id === data.id);
+          if (index > -1) {
+            this.rodmaps[index] = data;
+          }
+         })
+         console.log(this.rodmaps);
+      } else {
+        alert("No se pudo actualizar el Roadmap")
+      }
+
+    }
+
+    setRoadmapValuesForEditing(roadmap: Roadmap) {
+      this.actionToMake = ActionToPerfomce.edit;
+      this.nameOfTheRoadmap = roadmap.name;
+      this.descriptionOfTheRoadmap = roadmap.description;
+      this.colorOfTheRoadmap = roadmap.color;
+      this.selectedRoadmap = roadmap;
+
+/*         let newRoadmap:Observable<Roadmap> | null = this.roadmapService.editRoadmapColorNameAndDescription(this.nameOfTheRoadmap, this.descriptionOfTheRoadmap, this.colorOfTheRoadmap);
+        if (newRoadmap != null) {
+          newRoadmap.subscribe((data: Roadmap) => {
+            this.rodmaps.push(data);
+          })
+        } */
+      }
 
   getRoadmapsLenght(): number {
     return this.rodmaps.length;
@@ -80,5 +136,20 @@ export class RoadmapsComponent {
     }
    
   }
+
+  drop(event: CdkDragDrop<Roadmap[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
+  }
+
+
 
 }
