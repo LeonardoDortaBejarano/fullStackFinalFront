@@ -55,13 +55,11 @@ export class RoadmapLineComponent implements OnInit  {
         link : "",
         orderValue : "0",
       }
-      debugger
       this.tasksList.push(task);
     /* this.tasksList = taskListFromChild.map(task => {name:} as Task); */
   }
 
   saveChanges(f: NgForm) {
-    debugger;
     this.roadmapService.createMilestone(f.value.title, f.value.description,this.tasksList,+this.id)?.subscribe((data: Milestone) => {
       if (data) {
         let newMilestone = data;

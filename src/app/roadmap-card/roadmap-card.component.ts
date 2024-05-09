@@ -8,11 +8,14 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import { RoadmapService } from '../services/roadmap/roadmap.service';
 
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 
 @Component({
   selector: 'app-roadmap-card',
   standalone: true,
-  imports: [CommonModule,MatIconModule, MatButtonModule, MatMenuModule],
+  imports: [CommonModule,MatIconModule, MatButtonModule, MatMenuModule, MatInputModule, MatFormFieldModule],
   templateUrl: './roadmap-card.component.html',
   styleUrl: './roadmap-card.component.css'
 })

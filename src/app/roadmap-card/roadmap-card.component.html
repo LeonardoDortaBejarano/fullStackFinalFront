@@ -22,7 +22,7 @@
                 <div class="row align-items-center mb-2 d-flex">
                     <div class="col-8">
                         <h3 class="d-flex align-items-center mb-0">
-                            {{this.roadmap?.donePercentage}}
+                            {{this.roadmap?.donePercentage}}%
                         </h3>
                     </div>
                     <div class="col-4 text-right">
@@ -38,13 +38,3 @@
     </a>
 </div>
 
-@if (this.showOption) {
-    <div>
-        <button mat-fab color="warn" aria-label="Example icon button with a delete icon">
-            <mat-icon>delete</mat-icon>
-          </button>
-          <button mat-fab color="3b67ad" aria-label="Example icon button with a delete icon">
-            <mat-icon>mode_edit_outline</mat-icon>
-          </button>
-    </div>
-}

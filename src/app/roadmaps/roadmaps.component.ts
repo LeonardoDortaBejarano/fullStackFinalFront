@@ -64,13 +64,21 @@ export class RoadmapsComponent {
   }
 
   deleteRoadmapFromList(roadmapId: Number) {
-    //TODO: implmentar la eliminacion del front
-
-    this.rodmaps.forEach(roadmap => {
+    const roadmapToEliminate: Roadmap | undefined = this.rodmaps.find((roadmap) => {
       if (roadmap.id == roadmapId) {
-
+        return roadmap;
+      } else {
+        return null
       }
-    });
+    })
+
+    if (roadmapToEliminate) {
+      const index = this.rodmaps.indexOf(roadmapToEliminate, 0);
+      if (index > -1) {
+        this.rodmaps.splice(index,1)
+      }
+    }
+   
   }
 
 }
