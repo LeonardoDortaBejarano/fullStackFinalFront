@@ -1,0 +1,13 @@
+<button class="option-button" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button (click)="deleteAction()" mat-menu-item>
+      <mat-icon>delete</mat-icon>
+      <span>Eliminar</span>
+    </button>
+    <button (click)="editAction()" data-bs-toggle="modal" data-bs-target="#roadmapModal" mat-menu-item>
+      <mat-icon>edit</mat-icon>
+      <span>Editar</span>
+    </button>
+  </mat-menu>

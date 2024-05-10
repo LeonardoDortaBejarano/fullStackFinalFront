@@ -22,7 +22,14 @@
         <app-roadmap-card   (editingRaoadmap)="setRoadmapValuesForEditing($event)"  (deletedElement)='deleteRoadmapFromList($event)' [roadmap]=roadmap></app-roadmap-card>
       </div>
     </div>
-    }
+    } @empty {
+      <div class="no-data-container">
+        <img src="../../assets/svg/studing.svg" width="300px" alt="Centered Image">
+        <br>
+        <br>
+        <h2>Empieza a crear roadmpas!!!</h2>
+      </div>
+      }
 </div>
 
   <!-- Modal -->
@@ -67,25 +74,3 @@
 
 
 
-
-  <div class="example-container" cdkDropListGroup>
-
-      <div
-      cdkDropList
-      #placeholder
-    ></div>
-
-        @for (roadmap of this.rodmaps; track roadmap ) {
-          <div
-        cdkDropList
-        [cdkDropListData]="[roadmap]"
-        #placeholder
-        class="example-list"
-        (cdkDropListDropped)="drop($event)">
-          <!-- <app-roadmap-card  cdkDrag (editingRaoadmap)="setRoadmapValuesForEditing($event)"  (deletedElement)='deleteRoadmapFromList($event)' [roadmap]=roadmap></app-roadmap-card> -->
-          <div cdkDrag class="example-box">
-            <app-roadmap-card   (editingRaoadmap)="setRoadmapValuesForEditing($event)"  (deletedElement)='deleteRoadmapFromList($event)' [roadmap]=roadmap></app-roadmap-card>
-          </div>
-        </div>
-        }
-  </div>

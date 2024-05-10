@@ -41,6 +41,19 @@ body{margin-top:20px;}
     position: relative;
 }
 
+.edit-menu {
+    position: absolute;
+    top: 10%;
+    right: 0;
+    z-index: 1;
+}
+
+.milestone-wrapper {
+    padding: 0;
+    margin-bottom: 20px;
+    position: relative;
+}
+
 @media (max-width: 767px) {
     .timeline .event {
         padding-top: 30px;

@@ -5,15 +5,23 @@ import { RoadmapService } from '../services/roadmap/roadmap.service';
 import { Task } from '../models/Task';
 import { Roadmap } from '../models/Roadmap';
 import { Milestone } from '../models/Milestone';
+import { EditAndDeleteMenuComponent } from "../edit-and-delete-menu/edit-and-delete-menu.component";
 
 @Component({
     selector: 'app-roadmap-line',
     standalone: true,
     templateUrl: './roadmap-line.component.html',
     styleUrl: './roadmap-line.component.css',
-    imports: [FormsModule, TaskCreatorComponent]
+    imports: [FormsModule, TaskCreatorComponent, EditAndDeleteMenuComponent]
 })
 export class RoadmapLineComponent implements OnInit  {
+/* }) */
+editMilestone(milestone: Milestone) {
+  alert(`editMilestone ${milestone.name}`)
+}
+deleteMilestone(milestone: Milestone) {
+  alert(`deleteMilestone ${milestone.name}`)
+}
 
   roadmapService: RoadmapService = inject(RoadmapService); 
 

@@ -8,12 +8,22 @@
                             
                             @if (this.roadmap != null) {
                                 @for (milestone of getRoadmapMilestone(); track $index) {
-                                
+                                  <div class="milestone-wrapper">
+                                    <app-edit-and-delete-menu (editEvent)="editMilestone(milestone)" (deleteEvent)="deleteMilestone(milestone)" class="edit-menu" ></app-edit-and-delete-menu>
                                     <li class="event clickable" (click)="setSelectedMilestone(milestone)"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                                         <h3>{{milestone.name}}</h3>
                                         <p>{{milestone.content}}</p> 
                                     </li>
-                                    }
+                                    <hr class="hr hr-blurry" />
+                                  </div>
+                                } @empty {
+                                  <div class="no-data-container">
+                                    <img src="../../assets/svg/teach.svg" width="300px" alt="Centered Image">
+                                    <br>
+                                    <br>
+                                    <h2>Añade Milestones</h2>
+                                  </div>
+                                  }
                             }
                         </ul>
                     </div>
