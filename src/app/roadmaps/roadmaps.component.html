@@ -3,21 +3,26 @@
 <div class="add-button-container">
     <button (click)="setRoadmapValuesForSaving()" type="button" class="btn btn-primary add-button" data-bs-toggle="modal" data-bs-target="#roadmapModal"><i class="fas fa-plus"></i></button>
 </div>
-  <div class="container-fluid">
-  @if (getRoadmapsLenght() != 0) {
-    
-      <div class="row">
-      @for (roamap of rodmaps;track roamap; let index = $index) {
-          <div class="col-md-2">
-            <app-roadmap-card  (editingRaoadmap)="setRoadmapValuesForEditing($event)"  (deletedElement)='deleteRoadmapFromList($event)' [selectedColorId]="index" [roadmap]=roamap></app-roadmap-card>
-            
-          </div>
-        }
+<div class="example-container" cdkDropListGroup>
+
+  <div
+  cdkDropList
+  #placeholder
+></div>
+
+    @for (roadmap of this.rodmaps; track roadmap ) {
+      <div
+    cdkDropList
+    [cdkDropListData]="[roadmap]"
+    #placeholder
+    class="example-list"
+    (cdkDropListDropped)="drop($event)">
+      <!-- <app-roadmap-card  cdkDrag (editingRaoadmap)="setRoadmapValuesForEditing($event)"  (deletedElement)='deleteRoadmapFromList($event)' [roadmap]=roadmap></app-roadmap-card> -->
+      <div cdkDrag class="example-box">
+        <app-roadmap-card   (editingRaoadmap)="setRoadmapValuesForEditing($event)"  (deletedElement)='deleteRoadmapFromList($event)' [roadmap]=roadmap></app-roadmap-card>
       </div>
-
-  
-
-  }
+    </div>
+    }
 </div>
 
   <!-- Modal -->
@@ -64,39 +69,23 @@
 
 
   <div class="example-container" cdkDropListGroup>
-    @for (roamap of rodmaps;track roamap; let index = $index) {
-      <div cdkDropList 
-            >
-        
-        <app-roadmap-card  cdkDrag class="example-box"(editingRaoadmap)="setRoadmapValuesForEditing($event)"  (deletedElement)='deleteRoadmapFromList($event)' [selectedColorId]="index" [roadmap]=roamap></app-roadmap-card>
-      </div>
-    }
-  </div> 
-  
-<!--     <div
-    cdkDropList
-    
-    [cdkDropListData]="rodmaps"
-    class="example-list"
-    (cdkDropListDropped)="drop($event)">
-    @for (roamap of rodmaps;track roamap; let index = $index) {
-        <div class="example-box" cdkDrag>
-          <app-roadmap-card  (editingRaoadmap)="setRoadmapValuesForEditing($event)"  (deletedElement)='deleteRoadmapFromList($event)' [selectedColorId]="index" [roadmap]=roamap></app-roadmap-card>
-          <p class="example-box" cdkDrag  >{{roamap.name}}</p>
-          
+
+      <div
+      cdkDropList
+      #placeholder
+    ></div>
+
+        @for (roadmap of this.rodmaps; track roadmap ) {
+          <div
+        cdkDropList
+        [cdkDropListData]="[roadmap]"
+        #placeholder
+        class="example-list"
+        (cdkDropListDropped)="drop($event)">
+          <!-- <app-roadmap-card  cdkDrag (editingRaoadmap)="setRoadmapValuesForEditing($event)"  (deletedElement)='deleteRoadmapFromList($event)' [roadmap]=roadmap></app-roadmap-card> -->
+          <div cdkDrag class="example-box">
+            <app-roadmap-card   (editingRaoadmap)="setRoadmapValuesForEditing($event)"  (deletedElement)='deleteRoadmapFromList($event)' [roadmap]=roadmap></app-roadmap-card>
+          </div>
         </div>
-      }
-    </div>
-     -->
-
-
-
-<!-- 
-  <div class="row">
-    @for (roamap of rodmaps;track roamap; let index = $index) {
-        <div class="col-md-2">
-          <app-roadmap-card  (editingRaoadmap)="setRoadmapValuesForEditing($event)"  (deletedElement)='deleteRoadmapFromList($event)' [selectedColorId]="index" [roadmap]=roamap></app-roadmap-card>
-          
-        </div>
-      }
-    </div> -->
+        }
+  </div>

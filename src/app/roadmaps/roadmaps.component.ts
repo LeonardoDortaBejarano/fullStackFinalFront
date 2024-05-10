@@ -9,6 +9,7 @@ import { Task } from '../models/Task';
 import { Milestone } from '../models/Milestone';
 import { NgxColorsModule } from 'ngx-colors';
 import { ActionToPerfomce } from '../enum/roadmap'
+
 import {
   CdkDragDrop,
   CdkDrag,
@@ -17,6 +18,7 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop'
+
 /* import {CdkDragDrop, CdkDrag, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop'; */
 
 @Component({
@@ -24,7 +26,7 @@ import {
     standalone: true,
     templateUrl: './roadmaps.component.html',
     styleUrl: './roadmaps.component.css',
-    imports: [CdkDropListGroup, CdkDropList, CdkDrag,FormsModule, MatGridListModule, RoadmapCardComponent,NgxColorsModule]
+    imports: [CdkDropListGroup, CdkDropList, CdkDrag, FormsModule, MatGridListModule, RoadmapCardComponent, NgxColorsModule]
 })
 export class RoadmapsComponent {
 
@@ -138,15 +140,13 @@ export class RoadmapsComponent {
   }
 
   drop(event: CdkDragDrop<Roadmap[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
+
+    const index1 = this.rodmaps.findIndex((r) => r === event.container.data[0]);
+    const index2 = this.rodmaps.findIndex((r) => r === event.previousContainer.data[0]);
+    if (index1 > -1 && index2 > -1 ) {
+      debugger
+     let elementToSplice = this.rodmaps.splice(index2,1)[0];
+     this.rodmaps.splice(index1, 0, elementToSplice)[0];
     }
   }
 
