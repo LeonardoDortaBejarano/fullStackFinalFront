@@ -2,10 +2,11 @@ import { Task } from "./Task";
 
 export interface Milestone {
   id?: Number;
-  orderValue?: string
+  orderValue?: Number
   name : String,
   content : String,
-  tasks : Task[];
+  tasks? : Task[];
+  roadmapId?: Number;
 }
 
 /* import {Task} from "./Task";

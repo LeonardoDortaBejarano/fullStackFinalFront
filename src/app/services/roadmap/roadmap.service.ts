@@ -6,16 +6,13 @@ import { Milestone } from '../../models/Milestone';
 import { Observable } from 'rxjs';
 import { Task } from '../../models/Task';
 import { __param } from 'tslib';
+import { OrderPair } from '../../models/OrderPair';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoadmapService {
 
- /*  editRoadmapColorNameAndDescription(nameOfTheRoadmap: String, descriptionOfTheRoadmap: String, colorOfTheRoadmap: String): Observable<Roadmap> | null {
-    
-  }
- */
 
 
   private httpClient: HttpClient = inject(HttpClient);
@@ -33,6 +30,20 @@ export class RoadmapService {
     }
     return null;
   }
+
+  editMileston(milestone: Milestone): Observable<Milestone>|null {
+    if (milestone.id != undefined) {
+      return this.httpClient.put<Milestone>(`http://localhost:8080/api/v1/milestone/${milestone.id}`,milestone)
+    }
+    return null;
+  }
+
+  deleteMilestone(milestoneId: Number) : Observable<any>{
+    return this.httpClient.delete<Milestone>(`http://localhost:8080/api/v1/milestone/${milestoneId}`)
+  }
+
+
+
 
   editRoadmap(nameOfTheRoadmap: String, descriptionOfTheRoadmap: String, colorOfTheRoadmap: String, roadmapId: Number|undefined): Observable<Roadmap> | null {
     if (roadmapId != undefined) {
@@ -58,8 +69,8 @@ export class RoadmapService {
 
   }
 
-  createMilestone(name: String, description: String, tasks: Task[], roadmapId: number):Observable<Milestone> | null {
-    let milestone: Milestone = {name: name,content:description, tasks: tasks}
+  createMilestone(name: String, description: String, tasks: Task[], roadmapId: number, milestoneOrderValues: Number):Observable<Milestone> | null {
+    let milestone: Milestone = {name: name,content:description, tasks: tasks, orderValue: milestoneOrderValues}
     let userId:number | null = this.authService.getUserId();
     if (userId) {
       return this.httpClient.post<Milestone>(`http://localhost:8080/api/v1/roadmap/${roadmapId}/milestone`,milestone)
@@ -68,10 +79,22 @@ export class RoadmapService {
   }
 
   updateTask(task:Task) {
-
     this.httpClient.put<Task>(`http://localhost:8080/api/v1/task/${task.id}`,task).subscribe((data) => {
       
-     
+    })
+  }
+
+  updateRoadmapOrder(orderPairs:OrderPair[]) {
+    console.log("orderPairs");
+    console.log(orderPairs);
+    this.httpClient.put<Task>(`http://localhost:8080/api/v1/milestone/order`,orderPairs).subscribe((data) => {
+      console.log("has happend")
+    })
+  }
+
+  updateMilestonOrder(orderPairs:OrderPair) { 
+    this.httpClient.put(`http://localhost:8080/api/v1/roadmap/order`,orderPairs).subscribe((data) => {
+      console.log("has happend")
     })
   }
 
@@ -84,6 +107,8 @@ export class RoadmapService {
   deleteRoadmap(roadmapId: Number):Observable<any>{
     return this.httpClient.delete(`http://localhost:8080/api/v1/roadmap/${roadmapId}`);
   }
+
+
 
 }
  

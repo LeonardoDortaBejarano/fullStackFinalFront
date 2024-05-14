@@ -1,19 +1,21 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
-            <div class="card">
+        <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)" class="col-md-12">
+            <div  class="card">
                 <div class="card-body">
-                    <div id="content">
-                        <ul class="timeline">
+                    <div  class="timeline" id="content">
                             
                             @if (this.roadmap != null) {
                                 @for (milestone of getRoadmapMilestone(); track $index) {
-                                  <div class="milestone-wrapper">
-                                    <app-edit-and-delete-menu (editEvent)="editMilestone(milestone)" (deleteEvent)="deleteMilestone(milestone)" class="edit-menu" ></app-edit-and-delete-menu>
-                                    <li class="event clickable" (click)="setSelectedMilestone(milestone)"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                                  <div cdkDrag  class="example-box" class="milestone-wrapper">
+                                    <div class="example-handle" cdkDragHandle>
+                                      <i class="material-icons">=</i>
+                                    </div>
+                                    <app-edit-and-delete-menu (editEvent)="setEditionValues(milestone)" (deleteEvent)="deleteMilestone(milestone)" class="edit-menu" ></app-edit-and-delete-menu>
+                                    <div class="event clickable" (click)="setSelectedMilestone(milestone)"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                                         <h3>{{milestone.name}}</h3>
                                         <p>{{milestone.content}}</p> 
-                                    </li>
+                                    </div>
                                     <hr class="hr hr-blurry" />
                                   </div>
                                 } @empty {
@@ -25,7 +27,6 @@
                                   </div>
                                   }
                             }
-                        </ul>
                     </div>
                 </div>
             </div>
@@ -33,7 +34,7 @@
     </div>
 </div>
 <div class="add-button-container">
-    <button  type="button" class="btn btn-primary add-button" data-bs-toggle="modal" data-bs-target="#roadmapModal"><i class="fas fa-plus">+</i></button>
+    <button  type="button" (click)="setCreationValues()" class="btn btn-primary add-button" data-bs-toggle="modal" data-bs-target="#roadmapModal"><i class="fas fa-plus">+</i></button>
 </div>
 
 
@@ -52,12 +53,12 @@
                 <form #f="ngForm"  novalidate>
                     <div class="mb-3">
                       <label for="titleInput" class="form-label">Title</label>
-                      <input ngModel name="title"  class="form-control" id="titleInput" aria-describedby="usernameHelp">
+                      <input [(ngModel)]="selectedMilestone.name" name="title"  class="form-control" id="titleInput" aria-describedby="usernameHelp">
                     </div>
 
                 <div class="form-group">
                     <label for="formControlTextarea">Content</label>
-                    <textarea ngModel name="description" class="form-control" id="formControlTextarea" rows="3"></textarea>
+                    <textarea [(ngModel)]="selectedMilestone.content" name="description" class="form-control" id="formControlTextarea" rows="3"></textarea>
                   </div>
                 </form>
             </div>
@@ -67,7 +68,7 @@
         </div>
         <div class="modal-footer">
           <button type="button"  class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" (click)="saveChanges(f)" data-bs-dismiss="modal" class="btn btn-primary">Save changes</button>
+          <button type="button" (click)="performAction()" data-bs-dismiss="modal" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
@@ -76,15 +77,15 @@
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header">
-    <h5 id="offcanvasRightLabel">{{selectedMilestone?.name}}</h5>
+    <h5 id="offcanvasRightLabel">{{selectedMilestone.name}}</h5>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-    <p>{{selectedMilestone?.content}}</p>
+    <p>{{selectedMilestone.content}}</p>
 
                       <ul class="list-group mb-0">
 
-                        @for (task of selectedMilestone?.tasks; track $index) {
+                        @for (task of selectedMilestone.tasks; track $index) {
                             <li class="list-group-item d-flex align-items-center border-0 mb-2 rounded"
                             style="background-color: #f4f6f7;">
                             @if (task.complete) {

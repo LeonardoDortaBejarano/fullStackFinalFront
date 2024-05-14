@@ -1,10 +1,11 @@
+import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, Output, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-task-creator',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,CdkDropList, CdkDrag, CdkDragHandle],
   templateUrl: './task-creator.component.html',
   styleUrl: './task-creator.component.css'
 })
@@ -29,6 +30,9 @@ export class TaskCreatorComponent {
     this.taskList = [];
   }
 
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.taskList, event.previousIndex, event.currentIndex);
+  }
   
 
 }

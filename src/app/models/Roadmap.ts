@@ -11,7 +11,8 @@ export interface Roadmap {
      name: String,
      description: String,
      color: String,
-     milestones: Milestone[]
+     milestones: Milestone[],
+     order: Number
 }
 
 /* export class Roadmap {

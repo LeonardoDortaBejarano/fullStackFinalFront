@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RoadmapService } from '../services/roadmap/roadmap.service';
 import { Roadmap } from '../models/Roadmap';
+import { OrderPair } from '../models/OrderPair';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { RoadmapCardComponent } from "../roadmap-card/roadmap-card.component";
@@ -46,9 +47,6 @@ export class RoadmapsComponent {
   ngOnInit() {
     this.roadmapService.getUserRoadmaps()?.subscribe((data: Roadmap[]) => {
     
-      let milestoneTasks: Task[];
-      let milestoneToInsert: Milestone[];
-      let roadmap:Roadmap;
 
       if (data && data.length > 0) {
 
@@ -139,14 +137,26 @@ export class RoadmapsComponent {
    
   }
 
+  updateRoadmapsOrder(){
+    let newOrder = this.rodmaps.map((roadmap: Roadmap, index:number) => {
+      console.log("adentro")
+      return {  "id": roadmap.id ,
+        "orderValue": index}
+    })
+    console.log("CUIDADO")
+    console.table(newOrder)
+    this.roadmapService.updateRoadmapOrder(newOrder);
+  }
+
   drop(event: CdkDragDrop<Roadmap[]>) {
 
     const index1 = this.rodmaps.findIndex((r) => r === event.container.data[0]);
     const index2 = this.rodmaps.findIndex((r) => r === event.previousContainer.data[0]);
     if (index1 > -1 && index2 > -1 ) {
-      debugger
      let elementToSplice = this.rodmaps.splice(index2,1)[0];
      this.rodmaps.splice(index1, 0, elementToSplice)[0];
+     console.log(this.rodmaps);
+     this.updateRoadmapsOrder()
     }
   }
 
