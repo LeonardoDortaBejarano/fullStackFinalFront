@@ -14,7 +14,7 @@ import { OrderPair } from '../models/OrderPair';
 
 @Component({
     selector: 'app-roadmap-line',
-    standalone: true,
+    standalone: true, 
     templateUrl: './roadmap-line.component.html',
     styleUrl: './roadmap-line.component.css',
     imports: [FormsModule, TaskCreatorComponent, EditAndDeleteMenuComponent, CdkDropList, CdkDrag, CdkDragHandle]
@@ -42,7 +42,13 @@ export class RoadmapLineComponent implements OnInit  {
         const orderTwo: number = n2.orderValue as number ?? 0;
         return orderOne - orderTwo
       });
+      this.roadmap.milestones.forEach((milestone: Milestone) => {
+        milestone.tasks?.sort((t1: Task,t2:Task) => {return <number>t1.orderValue - <number>t2.orderValue})
+      })
+      console.log("task")
+      console.info(this.roadmap?.milestones[0].tasks);
     });
+
   }
 
   performAction() {
@@ -92,14 +98,13 @@ export class RoadmapLineComponent implements OnInit  {
     this.roadmapService.updateRoadmapOrder(newOrder as OrderPair[]);
   }
 
-   setEditionValues(milestone: Milestone) {
+  setEditionValues(milestone: Milestone) {
     this.actionToPerfomce = ActionToPerfomce.edit;
     this.selectedMilestone = milestone;
     /* this.tasksList = this.selectedMilestone.tasks!; */
     this.taskCreator!.taskList = this.selectedMilestone.tasks? this.selectedMilestone.tasks.map((task)=> task.name) : [];
 
    }
-
    setCreationValues() {
     this.actionToPerfomce = ActionToPerfomce.save;
     this.selectedMilestone = {name:"",content:"", tasks: []};
@@ -107,17 +112,18 @@ export class RoadmapLineComponent implements OnInit  {
     /* this.tasksList = this.selectedMilestone.tasks!; */
    }
 
-  updateTaskList(taskFromChild: String): void {
+   updateTaskList(taskFromChild: String): void {
     let task: Task;
 
       task = {
         name : taskFromChild,
         complete : false,
         link : "",
-        orderValue : "0",
+        orderValue : <Number>this.selectedMilestone.tasks?.length ?? 0,
       }
       if (this.selectedMilestone) {
         this.selectedMilestone!.tasks?.push(task);
+        console.log(this.selectedMilestone.tasks);
       } else {
         console.log('ther is no selected milestone')
       }
@@ -148,7 +154,14 @@ export class RoadmapLineComponent implements OnInit  {
     task.complete = newState;
     this.roadmapService.updateTask(task);
   }   
+
   
-
-
+  reorderTaskList(map:Map<string,number>) {
+    if (this.selectedMilestone.tasks){
+        this.selectedMilestone.tasks[map.get("previousIndex")!].orderValue = map.get("currentIndex")!
+        this.selectedMilestone.tasks[map.get("currentIndex")!].orderValue = map.get("previousIndex")!
+        moveItemInArray(this.selectedMilestone.tasks, map.get("previousIndex")!,map.get("currentIndex")!);
+      }
+    
+  }
 }

@@ -63,7 +63,8 @@
                 </form>
             </div>
 
-            <app-task-creator #taskCreator  (taskAddedToList)="updateTaskList($event)"></app-task-creator>
+            <!-- <app-task-creator #taskCreator (tasklistReorder)="reorderTaskList($event)" (taskAddedToList)="updateTaskList($event)"></app-task-creator> -->
+            <app-task-creator #taskCreator  (taskOrdersHaveChanged)="reorderTaskList($event)"  (taskAddedToList)="updateTaskList($event)"></app-task-creator>
 
         </div>
         <div class="modal-footer">

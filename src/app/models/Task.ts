@@ -1,6 +1,6 @@
 export interface Task {
      link : String;
-     orderValue: String;
+     orderValue: Number;
      name : String,
      id?: number,
      complete : boolean;

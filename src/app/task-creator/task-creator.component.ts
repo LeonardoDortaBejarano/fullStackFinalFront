@@ -17,6 +17,7 @@ export class TaskCreatorComponent {
   constructor(){}
  
   @Output() taskAddedToList= new EventEmitter<String>();
+  @Output() taskOrdersHaveChanged = new EventEmitter<Map<string,number>>();
   
 
   addTaskToTaskList(): void{
@@ -32,7 +33,12 @@ export class TaskCreatorComponent {
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.taskList, event.previousIndex, event.currentIndex);
+    let map: Map<string,number> = new Map<string,number>() ;
+    map.set("previousIndex", event.previousIndex);
+    map.set("currentIndex", event.currentIndex)
+    this.taskOrdersHaveChanged.emit(map)
   }
+  
   
 
 }
